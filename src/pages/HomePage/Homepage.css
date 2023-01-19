@@ -1,0 +1,21 @@
+.homepage {
+
+    height:500px;
+    width:100%;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    place-items: center;
+
+}
+
+ h1{
+    color: white;
+}
+
+.homepage-banner{
+    background-image: url("../../Assets/pexels-toni-cuenca-585752.jpg") ;
+    height:800px;
+    background-size: cover;
+    background-position: center;
+}
