@@ -1,49 +1,63 @@
-.register-Blok{
+.signup-page{
+    background-image: url("../../Assets/signup-page.jpg") ;
+    height: 1200px;
+    background-size: cover;
+    background-position: center;
+    border: 1px solid #FB7E2D;
+    border-radius: 5px;
+}
+.signup-form-outer{
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
     align-items: center;
-    gap: 30px;
-    color: white;
+    margin-top:900px;
 
+    filter: drop-shadow(30px 10px 10px rgba(28, 28, 28, 0.89));
 }
-.register-veld {
-
-    background-color: #32326e;
-    color: #EF476F;
+.signup-form-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #273E47;
+    padding: 32px;
+    width: 400px;
     border-radius: 10px;
-    box-shadow: 0 50px 32px 0 rgba(0,0,0,0.2), 0 20px 40px 0 rgba(0,0,0,0.19);
-    display: flex;
-    flex-direction: column;
-    padding: 120px;
-
+    border: 1px solid #FB7E2D;
+}
+.signup-form-inner label {
+    margin: 4px 0;
+    font-weight: bold;
+    color: white;
+}
+.signup-form-inner select{
+    width: 75%;
+    background-color: #D9D9D9;
+}
+.signup-form-inner input {
+    width: 75%;
+    padding: 4px 8px;
+    margin: 6px 0;
+    background-color: #D9D9D9;
 
 }
-
-
-
-
-
-#registerButton{
-    background-color: rgba(62, 65, 138, 0.91);
-    color:#EF476F;
-    border-radius: 4px;
+.head-text{
+    margin: 32px 0 24px 0;
+    color: white;
+}
+.signup-button{
+    background-color:#F37D4B ;
     border: none;
-    padding: 8px 60px;
-    margin-left: 10px;
-    margin-right: 10px;
-    margin-top: 10px;
+    color: #273E47;
+    font-weight: bold;
+    width: 75%;
+    height: 25px;
+    margin-top: 20px;
+    border-radius: 8px;
 }
-#registerButton:hover{
+.signup-button:hover{
     cursor: pointer;
-    background-color: rgba(64, 67, 169, 0.91);
+    background-color: #f86c33;
 }
-.signup-page {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    height: 80vh;
-    font-family: 'Mukta', Arial, sans-serif;
-
+p{
+    font-size: large;
 }

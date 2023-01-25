@@ -1,34 +1,112 @@
 import React, {useState} from 'react';
 import PopUp from "../../components/PopUp/PopUP";
+import Nav from "../../components/NavBar/Nav";
+import "./StudentPage.css"
+import Button from "../../components/Button\'s/Button";
+import Footer from "../../components/Footer/Footer";
+import FormButton from "../../components/Button's/FormButton/FormButton";
+
 function StudentPage() {
-    const [buttonStudent,setButtonStudent] = useState(false)
-    const [buttonMessage,setButtonMessage] = useState(false)
-    const [buttonStudyGroup,setButtonStudyGroup] = useState(false)
+    const [buttonAssignment, setButtonAssignment] = useState(false);
+    const [buttonMessage, setButtonMessage] = useState(false);
+    const [buttonStudent, setButtonStudent] = useState(false);
+    const [buttonHomeworkInput, setButtonHomeworkInput] = useState(false);
 
     return (
         <>
-           <section className="buttons-student">
-            <button type="button"
-                    onClick={() =>setButtonStudent(true)}
-            >Huiswerk
-            </button>
-            <button type="button"
-                    onClick={() => setButtonMessage(true)}
-            >Berichten</button>
-            <button type="button"
-                    onClick={() => setButtonStudyGroup(true)}
-            >Studie groep</button>
-           </section>
-         <PopUp trigger={buttonStudent} setTrigger={setButtonStudent}>
-             <h2>Huiswerk</h2>
-             {/*render hier de verschillende lessen vanuit de database*/}
-         </PopUp>
-         <PopUp trigger={buttonMessage} setTrigger={setButtonMessage}>
-             <h2>Berichten</h2>
-         </PopUp>
-         <PopUp trigger={buttonStudyGroup} setTrigger={setButtonStudyGroup}>
-             <h2>Studie groep</h2>
-         </PopUp>
+            <Nav></Nav>
+            <div className="outer-container-student">
+                <section className="buttons-student">
+                    <Button
+                        type="student-button"
+                        className="student-button"
+                        onClick={() => setButtonAssignment(true)}
+                    >
+                        Opdrachten
+                    </Button>
+
+                    <Button
+                        type="button"
+                        className="student-button"
+                        onClick={() => setButtonMessage(true)}
+                    >
+                        Inbox
+                    </Button>
+
+                    <Button
+                        type="button"
+                        className="student-button"
+                        onClick={() => setButtonStudent(true)}
+                    >
+                        Student
+                    </Button>
+
+                    <Button
+                        type="button"
+                        className="student-button"
+                        onClick={() => setButtonHomeworkInput(true)}
+                    >
+                        Huiswerk inleveren
+                    </Button>
+
+                </section>
+                <h1 className="student-title">voor het eerst hier? vul dan eerst je student gegevens in!!</h1>
+            </div>
+
+            {/*Popup blok*/}
+            <PopUp trigger ={buttonAssignment} setTrigger ={setButtonAssignment}>
+                <h2>Opdrachten overzicht:</h2>
+                {/*render hier de verschillende lessen vanuit de database*/}
+            </PopUp>
+            <PopUp trigger ={buttonMessage} setTrigger ={setButtonMessage}>
+                <h2>Inbox</h2>
+                <br/>
+                <FormButton>+</FormButton>
+            </PopUp>
+            <PopUp trigger ={buttonStudent} setTrigger ={setButtonStudent}>
+                <h2>Persoons gegevens</h2>
+                <br/>
+                <label htmlFor="first-name">Voornaam:</label>
+                <input type="text"
+                />
+                <br/>
+                <label htmlFor="last-name">Achternaam:</label>
+                <input type="text"/>
+                <br/>
+                <label htmlFor="email-adres">Email:</label>
+                <input type="email"/>
+                <br/>
+                <label htmlFor="Start-date">Startdatum:</label>
+                <input
+                    type="text"
+                    placeholder=" voorbeeld: 2023/04"
+                />
+                <br/>
+                <FormButton
+                    type="submit"
+                >Aanpassen
+
+                </FormButton>
+            </PopUp>
+            <PopUp trigger ={buttonHomeworkInput} setTrigger ={setButtonHomeworkInput}>
+                <h2>Huiswerk inleveren</h2>
+                <label htmlFor="Homework-input">Github link:</label>
+                <input type="url"/>
+                <br/>
+                <label htmlFor="timestamp">Inlever moment:</label>
+                <input type="datetime-local"/>
+                <br/>
+                <label htmlFor="Assignment">Opdracht naam:</label>
+                <input type="text"/>
+                <br/>
+                <label htmlFor="student">Naam:</label>
+                <input
+                    type="text"
+                    placeholder="Je eigen gebuikersnaam"
+                />
+                <br/>
+            </PopUp>
+            <Footer></Footer>
         </>
     );
 }

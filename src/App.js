@@ -34,8 +34,9 @@ function App() {
   return (
       <>
 
-        <Nav></Nav>
+
           <Routes>
+
             <Route path="/" element={<HomePage/>}/>
             <Route path="login" element={<InlogPage/>}/>
             <Route path="signuppage" element={<SignupPage/>}/>
@@ -43,6 +44,7 @@ function App() {
               <Route path="/student" element={<StudentPage/>}/>
          </Routes>
           <body>
+
           <section>
 
           </section>

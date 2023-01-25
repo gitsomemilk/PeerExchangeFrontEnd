@@ -1,0 +1,20 @@
+
+.outer-container{
+    background-image: url("../../Assets/userpage.png") ;
+    height:1200px;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+.buttons-teacher{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    padding-top: 60px;
+    gap: 160px;
+
+}
+.create-assignment label {
+    color: black;
+
+}
+

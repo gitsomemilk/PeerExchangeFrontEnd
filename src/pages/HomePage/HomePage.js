@@ -1,23 +1,32 @@
 import React, {useState} from 'react';
 
-import "./Homepage.css"
+import "./HomePage.css"
+import Nav from "../../components/NavBar/Nav";
+import Button from "../../components/Button\'s/Button";
+import {useNavigate} from "react-router-dom";
+import Footer from "../../components/Footer/Footer";
 const HomePage = () => {
 
+    const navigate = useNavigate();
+
+    function buttonnav(){
+       navigate('login')
+    }
     return (
         <div className="Homepage">
+
             <section className="homepage-banner">
-
-                <h1 className="header-text">Bespaar instructeurs tijd en laat studenten elkaars werk controleren, waardoor ze nog meer leren. geïntresseerd ??
-                    <a href="/signuppage">Klik</a> dan op de knop </h1>
-
-
-
-
-
+            <Nav></Nav>
             </section>
+            <section className="homepage-button">
+                <Button className="homepage-button" onClick={buttonnav}>Login</Button>
+            </section>
+
             <a href="/teacher">teacher</a><br/>
             <a href="/student">student</a>
+
             <h2>hier moet een filmpje komen </h2>
+            <Footer></Footer>
         </div>
     );
 }
