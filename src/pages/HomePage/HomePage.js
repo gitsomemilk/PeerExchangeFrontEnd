@@ -23,7 +23,8 @@ const HomePage = () => {
             </section>
 
             <a href="/teacher">teacher</a><br/>
-            <a href="/student">student</a>
+            <a href="/student">student</a><br/>
+            <a href="/admin">admin</a>
 
             <h2>hier moet een filmpje komen </h2>
             <Footer></Footer>

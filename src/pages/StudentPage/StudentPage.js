@@ -8,7 +8,6 @@ import FormButton from "../../components/Button's/FormButton/FormButton";
 
 function StudentPage() {
     const [buttonAssignment, setButtonAssignment] = useState(false);
-    const [buttonMessage, setButtonMessage] = useState(false);
     const [buttonStudent, setButtonStudent] = useState(false);
     const [buttonHomeworkInput, setButtonHomeworkInput] = useState(false);
 
@@ -25,13 +24,7 @@ function StudentPage() {
                         Opdrachten
                     </Button>
 
-                    <Button
-                        type="button"
-                        className="student-button"
-                        onClick={() => setButtonMessage(true)}
-                    >
-                        Inbox
-                    </Button>
+
 
                     <Button
                         type="button"
@@ -58,11 +51,7 @@ function StudentPage() {
                 <h2>Opdrachten overzicht:</h2>
                 {/*render hier de verschillende lessen vanuit de database*/}
             </PopUp>
-            <PopUp trigger ={buttonMessage} setTrigger ={setButtonMessage}>
-                <h2>Inbox</h2>
-                <br/>
-                <FormButton>+</FormButton>
-            </PopUp>
+
             <PopUp trigger ={buttonStudent} setTrigger ={setButtonStudent}>
                 <h2>Persoons gegevens</h2>
                 <br/>

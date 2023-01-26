@@ -57,11 +57,7 @@ function TeacherPage() {
                                 className="button-teacher"
                         >klassen
                         </Button>
-                        <Button type="Button"
-                                onClick={() => setButtonMessage(true)}
-                                className="button-teacher"
-                        >Inbox
-                        </Button>
+
                         <Button
                             type="Button"
                             onClick={() => setButtonPersInfo(true)}
@@ -138,11 +134,7 @@ function TeacherPage() {
                 <FormButton onClick={handleNewClass}> Aanmaken</FormButton>
                 </form>
             </PopUp>
-            <PopUp trigger ={buttonMessage} setTrigger ={setButtonMessage} className="message-popup">
-                <h2>Inbox</h2>
-                {/*render hier alle inkomende berichten!!!*/}
-                <FormButton onClick={handleNewMessage}>+</FormButton>
-            </PopUp>
+            
             <PopUp trigger ={buttonPersInfo} setTrigger ={setButtonPersInfo} className="study-group-popup">
                 <h2>Persoonlijke informatie </h2>
 
