@@ -15,12 +15,11 @@ function AuthContextProvider({children}) {
 
 
     useEffect(() => {
-            console.log("Je zit nu aan het begin van eerste useEffect in authcontext.")
             const storedToken = localStorage.getItem("token");
-            console.log("Token in authcontext: " + storedToken);
+
             if (storedToken) {
                 // when token then fetchUserData
-                console.log("Er is een token bekend in authcontext.")
+
                 const decodedToken = jwtDecode(storedToken)
                 if (Math.floor(Date.now() / 1000) < decodedToken.exp) {
                     void fetchUserData(storedToken, decodedToken.sub);
@@ -44,11 +43,10 @@ function AuthContextProvider({children}) {
 
 
     function login(token) {
-        console.log(token);
+
         console.log("De gebruiker is ingelogd");
         localStorage.setItem('token', token);
         const decodedToken = jwtDecode(token);
-        console.log(decodedToken);
         void fetchUserData(token, decodedToken.sub, "/student");
     }
 
@@ -61,10 +59,9 @@ function AuthContextProvider({children}) {
                     Authorization: `Bearer ${token}`,
                 }
             })
-            console.log("Response user na inlog:")
-            console.log(response);
-            console.log(response.data.authorities);
+
             console.log(response.data.authorities[0].authority);
+            console.log(response.data.username)
             setAuth({
                 ...auth,
                 isAuth: true,
@@ -74,9 +71,14 @@ function AuthContextProvider({children}) {
                 },
                 status: "done"
             });
-            // if someone refreshes the page, other than profile page, the page will refresh on the same page
+
+
             if (redirect) {
-                navigate(redirect);
+                if (response.data.authorities.find(authority => authority.authority === 'ROLE_ADMIN')) {
+                    navigate("/admin");
+                } else {
+                    navigate(response.data.teacher ? "/teacher" : "/student");
+                }
             }
         } catch (e) {
             console.error(e);

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import PopUp from "../../components/PopUp/PopUP";
 import "./TeacherPage.css"
 import Button from "../../components/Button\'s/Button";
@@ -12,34 +12,141 @@ import {useNavigate} from "react-router-dom";
 
 function TeacherPage() {
 
-    const [buttonTeacher,setButtonTeacher] = useState(false);
-    const [buttonClass,setButtonClass] = useState(false);
-    const [buttonMessage,setButtonMessage] = useState(false);
-    const [buttonPersInfo,setButtonPersInfo] = useState(false);
-    const [buttonAllAssignments,setButtonAllAssignments] = useState(false);
-    const {handleSubmit, formState: {errors}, register} = useForm();
     const navigate = useNavigate();
+    const token = localStorage.getItem('token');
+    const [data,setData] = useState('');
+    const [inputId,setInputID]=useState('');
+    const [inputUsername, setInputUsername] = useState('');
 
 
-    function handleNewMessage() {
-        console.log("hier komt een menu voor berichten met mensen uit verschillende klassen")
+    const [classes, setClasses] = useState([]);
+    const [assignments, setAssignments] = useState([]);
+    const [dataClass, setDataClass] = useState({});
+    const [dataAssignment, setDataAssignment] = useState({});
+
+
+    const [buttonTeacher, setButtonTeacher] = useState(false);
+    const [buttonClass, setButtonClass] = useState(false);
+    const [buttonAllAssignments, setButtonAllAssignments] = useState(false);
+
+    const [popupNewClass,setPopupNewClass]= useState(false);
+    const [popupNewClassTeacher,setPopupNewClassTeacher] = useState(false);
+    const [popUpMessage, setpopUpMessage] = useState(false)
+
+    const handleChangeUsername = (event) => {
+        setInputUsername(event.target.value);
     }
-    function handlePersInfo(){
-        console.log("persoons gegevens update")
+    const handleChangeInputId = (event) => {
+        setInputID(event.target.value);
     }
 
+    useEffect(() => {
+        async function fetchClass() {
 
-    async function handleNewClass(data){
-        try{
-            const response = await axios.post('http://localhost:8081/class', data);
-            console.log(response);
-            console.log(response.status);
-            navigate('/student')
-        }catch (e) {
-            console.error(e)
+            try {
+                const responseclass = await axios.get(`http://localhost:8081/class/all`, {
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${token}`,
+                    }
+                });
+
+                setClasses(responseclass.data);
+            } catch (e) {
+                console.error(e)
+
+            }
         }
 
+        void fetchClass();
+    }, []);
+
+    const handleChangeClass = (event) => {
+        setDataClass({...dataClass, [event.target.name]: event.target.value});
     }
+
+    async function handleClassSubmit(e) {
+        e.preventDefault();
+        try {
+            const response = await axios.post(`http://localhost:8081/class`, dataClass,
+                {
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${token}`,
+                    }
+                });
+            console.log(response.data)
+            setPopupNewClass(false);
+            setPopupNewClassTeacher(true);
+            setData(response.data);
+
+        } catch (e) {
+            console.error(e)
+        }
+    }
+
+    async function handleSubmitAssignment() {
+
+        try {
+            const response = await axios.post(`http://localhost:8081/assignments`, dataAssignment, {
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`,
+                }
+            });
+            setButtonTeacher(false)
+            setData(response.data)
+        } catch (e) {
+            console.error(e)
+
+        }
+    }
+
+    const handleChangeAssignment = (event) => {
+        setDataAssignment({...dataAssignment, [event.target.name]: event.target.value});
+
+    }
+    async function handleSubmitTeacher(e){
+        e.preventDefault();
+        try{
+            const response = await axios.post(`http://localhost:8081/class/${inputId}/${inputUsername}`,dataClass,{
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`,
+                }
+            });
+            setPopupNewClassTeacher(false);
+            setpopUpMessage(true);
+
+        }catch (e) {
+            console.error(e);
+        }
+    }
+
+
+    // method to get an overview of all the Assignments
+    useEffect(() => {
+        async function fetchAssignments() {
+
+
+            try {
+                const reponseAssignment = await axios.get('http://localhost:8081/assignments/all', {
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${token}`,
+                    }
+                });
+                setAssignments(reponseAssignment.data);
+
+            } catch (e) {
+                console.error(e)
+            }
+        }
+
+        void fetchAssignments();
+    }, []);
+
+
     return (
         <>
             <Nav></Nav>
@@ -58,13 +165,6 @@ function TeacherPage() {
                         >klassen
                         </Button>
 
-                        <Button
-                            type="Button"
-                            onClick={() => setButtonPersInfo(true)}
-                            className="button-teacher"
-                        >
-                            Persoonsgegevens
-                        </Button>
 
                         <Button
                             type="button"
@@ -79,101 +179,163 @@ function TeacherPage() {
             }
 
             {/*popup blok */}
-            <PopUp trigger ={buttonTeacher} setTrigger ={setButtonTeacher} className="assignment-popup">
+            <PopUp trigger={buttonTeacher} setTrigger={setButtonTeacher} className="assignment-popup">
                 <h2>Opdracht aanmaken</h2>
-                <form className="create-assignment" onSubmit={handleSubmit}>
-                    <label htmlFor="assignment">opdracht titel: </label>
-                    <input type="text"
-                           required
-                           placeholder="typ hier de titel"
+                <form onSubmit={handleSubmitAssignment}>
+                    <label htmlFor="title">Titel:</label>
+                    <input
+                        type="text"
+                        name="title"
+                        id="title"
+                        placeholder="titel van de opdracht"
+                        onChange={handleChangeAssignment}
                     />
                     <br/>
-                    <label htmlFor="class-token">Klassen code: </label>
-                    <input type="text"
-                           placeholder="XXXX"
-                           required
+                    <label htmlFor="description">Omschrijving:</label>
+                    <input
+                        type="text"
+                        name="description"
+                        id="description"
+                        placeholder="een kleine beschrijving van de opdracht"
+                        onChange={handleChangeAssignment}
                     />
                     <br/>
-                    <label htmlFor="deadline">Deadline :</label>
-                    <input type="date"
-                           required
+                    <label htmlFor="deadline">Inleverdatum:</label>
+                    <input
+                        type="date"
+                        name="deadline"
+                        id="deadline"
+                        onChange={handleChangeAssignment}
                     />
                     <br/>
-                    <label htmlFor="message">Toelichting :</label>
-                    <br/>
-                    <textarea className="message-textarea" cols="30" rows="10"></textarea>
-                    <br/>
-                    <label htmlFor="input-file">Bijlage : </label>
-                    <input type="file"/>
-                    <br/>
-                    <br/>
-                    <FormButton type="submit" onClick={handleSubmit} >versturen</FormButton>
-                </form>
+                    <label htmlFor="addon">Bestand:</label>
+                    <input
+                        type="file"
+                        name="addon"
+                        id="addon"
+                        onChange={handleChangeAssignment}
+                    />
 
+
+                    <br/>
+                    <FormButton>Aanmaken</FormButton>
+                </form>
             </PopUp>
-            <PopUp trigger ={buttonClass} setTrigger ={setButtonClass} className="class-popup">
+            <PopUp trigger={buttonClass} setTrigger={setButtonClass} className="class-popup">
                 <h2>Klassen overzicht</h2>
                 <br/>
                 {/* render hier de klassen vanuit de database*/}
-                <h2>Input nieuwe klas:</h2>
-                <form onSubmit={handleSubmit(handleNewClass)} className="class-popup">
-                    <label htmlFor="class-code">Klassencode:</label>
-                    <input
-                        type="text"
-                        placeholder="Start-datum klas"
-                        required
-                    />
-                    <br/>
-                    <label htmlFor="teacher">leraar:</label>
-                    <input
-                        type="text"
-                        required
-                        placeholder="Gebruikersnaam van leraar"
-                    />
-                    <br/>
-                <FormButton onClick={handleNewClass}> Aanmaken</FormButton>
+                <section className="class-table">
+                    <table className="classes">
+                        <thead>
+                        <tr>
+                            <th>Start datum</th>
+                            <th>Klass id</th>
+                            <th>Leraar</th>
+
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {classes.map((clas) => {
+                            return (
+                                <tr key={clas.id}>
+                                    <td>{clas.name}</td>
+                                    <td>{clas.id}</td>
+                                    <td>{clas.teacher.username}</td>
+
+                                </tr>
+                            )
+                        })}
+                        </tbody>
+                    </table>
+                </section>
+                <br/>
+                <FormButton onClick={()=> setButtonClass(false)+ setPopupNewClass(true)}>Nieuwe Klas </FormButton>
+            </PopUp>
+            <PopUp trigger={popupNewClass} setTrigger={setPopupNewClass}>
+                <h2>Klas aanmaken</h2>
+                <h4>Vul hier eerst de start datum in en druk op verder!</h4>
+                <form onSubmit={handleClassSubmit}>
+                <label htmlFor="">Startdatum:</label>
+                <input
+                    type="text"
+                    name="name"
+                    id="name"
+                    onChange={handleChangeClass}
+                    placeholder="bijv. 2023/08"
+                />
+                <br/>
+                <FormButton>verder</FormButton>
                 </form>
             </PopUp>
-            
-            <PopUp trigger ={buttonPersInfo} setTrigger ={setButtonPersInfo} className="study-group-popup">
-                <h2>Persoonlijke informatie </h2>
-
-                <Input
-                    id="firstname"
-                    labelText="Voornaam:"
-                    type="text"
-                    name="firstname"
-                    className="input-text"
-                    register={register}
-                    errors={errors}
-                />
-                <Input
-                    id="lastname"
-                    labelText="Achternaam:"
-                    type="text"
-                    name="lastname"
-                    className="input-text"
-                    register={register}
-                    errors={errors}
-                /><Input
-                id="email"
-                labelText="E-mailadres:"
-                type="email"
-                name="email"
-                className="input-text"
-                register={register}
-                errors={errors}
-            />
-
-                <br/>
-                <FormButton
-                    onClick={handlePersInfo}
-                    className="smallButton"
-                >Aanpassen</FormButton>
+            <PopUp trigger={popupNewClassTeacher} setTrigger={setPopupNewClassTeacher}>
+                <h2>Leraar toevoegen:</h2>
+                <h3>Aangemaakte klas</h3>
+                <table className="classes">
+                <thead>
+                <tr>
+                    <th>Start datum</th>
+                    <th>Klas id</th>
+                </tr>
+                </thead>
+                <tbody>
+                        <tr key={data.id}>
+                            <td>{data.name}</td>
+                            <td>{data.id}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p><strong>vul hier je gebruikersnaam in om te bevestigen samen met het Klas ID</strong></p>
+                <form onSubmit={handleSubmitTeacher}>
+                    <label htmlFor="username">Gebruikersnaam:</label>
+                    <input
+                        type="text"
+                        name="username"
+                        id="username"
+                        value={inputUsername}
+                        onChange={handleChangeUsername}
+                    />
+                    <label htmlFor="id-input">Klas ID:</label>
+                    <input
+                        type="text"
+                        name="id-input"
+                        id="id-input"
+                        value={inputId}
+                        onChange={handleChangeInputId}
+                    />
+                    <FormButton>Bevestig</FormButton>
+                </form>
             </PopUp>
-            <PopUp trigger ={buttonAllAssignments} setTrigger ={setButtonAllAssignments} className="allAssignments-popup">
+            <PopUp trigger={popUpMessage} setTrigger={setpopUpMessage}>
+                <h2>Nieuwe klas aangemaakt</h2>
+            </PopUp>
+
+
+            <PopUp trigger={buttonAllAssignments} setTrigger={setButtonAllAssignments} className="allAssignments-popup">
                 <h2>Opdrachten:</h2>
                 {/* render hier alle opdrachten die al zijn aangemaakt */}
+                <section className="assignment-table">
+                    <table className="assignments">
+                        <thead>
+                        <tr>
+                            <th>Opdracht Titel</th>
+                            <th>Toelichting</th>
+                            <th>Bijgevoegd</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {assignments.map((assignment) => {
+                            return (
+                                <tr key={assignment.id}>
+                                    <td>{assignment.title}</td>
+                                    <td>{assignment.description}</td>
+                                    <td>{assignment.addon}</td>
+                                </tr>
+                            )
+                        })}
+                        </tbody>
+                    </table>
+                </section>
             </PopUp>
             <Footer></Footer>
         </>

@@ -77,13 +77,73 @@ function SignupPage() {
                      errors={errors}
 
                  />
+                 <Input
+                     id="firstname"
+                     labelText="voornaam:"
+                     type="text"
+                     name="firstname"
+                     className="input-text"
+                     validationRules={{
+                         required: {
+                             value : true,
+                             message: 'dit veld is verplicht'
+                         }
+                     }}
+                     register={register}
+                     errors={errors}
+
+
+                 />
+                 <Input
+                     id="lastname"
+                     labelText="achternaam:"
+                     type="text"
+                     name="lastname"
+                     className="input-text"
+                     validationRules={{
+                         required: {
+                             value : true,
+                             message: 'dit veld is verplicht'
+                         }
+                     }}
+                     register={register}
+                     errors={errors}
+
+
+                 />
+                 <Input
+                     id="email"
+                     labelText="E-mailadres:"
+                     type="text"
+                     name="email"
+                     className="input-text"
+                     validationRules={{
+                         required: {
+                             value : true,
+                             message: 'dit veld is verplicht'
+                         }
+                     }}
+                     register={register}
+                     errors={errors}
+
+
+                 />
 
                  <label htmlFor="role-selector">student of leraar?</label>
-                 <select name="teacher" id="teacher">
-                 <option value="student"  >
+                 <select
+                     name="teacher"
+                     id="teacher"
+                     {...register("teacher",{
+                         required: {
+                             value : true,
+                             message: 'dit veld is verplicht'
+                         }
+                     })}
+                 >
+                 <option value= "false" >
                      ik ben een student
                  </option>
-                 <option value="teacher" >
+                 <option value="true" >
                      ik ben een leraar
                  </option>
              </select>
@@ -98,32 +158,6 @@ function SignupPage() {
 
          </body>
 
-
-
-
-
-
-
-            {/*        <body className="signup-page">*/}
-
-    {/*<form className="register-veld">*/}
-    {/*    <div className="register-Blok">*/}
-    {/*        <h1 id="registeren">Account aanmaken</h1>*/}
-
-    {/*        <label htmlFor="username-field">Gebruikersnaam:*/}
-    {/*            <input type="text" name="username" id="username-field" placeholder="Username"/>*/}
-    {/*        </label>*/}
-
-    {/*        <label htmlFor="password-field">*/}
-    {/*            Wachtwoord:*/}
-    {/*            <input type="password" name="password" id="password-field" placeholder="Password"/>*/}
-    {/*        </label>*/}
-
-
-    {/*        <button type="submit" id="registerButton">Aanmaken</button>*/}
-    {/*    </div>*/}
-    {/*</form>*/}
-    {/*        </body>*/}
 
 </>
     );

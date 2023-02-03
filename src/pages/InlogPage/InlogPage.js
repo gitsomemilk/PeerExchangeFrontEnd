@@ -24,7 +24,6 @@ function InlogPage() {
             if (response.status === 403) {
                 setUnknown(true);
             }
-           navigate('/student')
             login(response.data.jwt);
         } catch (e) {
             console.error(e);

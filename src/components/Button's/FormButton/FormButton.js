@@ -4,7 +4,7 @@ import "./FormButton.css"
 function FormButton( {onClick,children}) {
     return (
         <button
-            type="button"
+            type="submit"
             className="form-button"
             onClick={onClick}
         >
