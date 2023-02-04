@@ -72,7 +72,6 @@ function StudentPage() {
                 "Authorization": `Bearer ${token}`,
             }
         });
-            console.log(response)
             setButtonHomeworkInput(false);
             setPopUpHomework(true)
             setData(response.data)
@@ -113,6 +112,7 @@ function StudentPage() {
                 setSubmissions(response.data);
                 setPopUpHomeworkMessage(false);
                 setPopUpRandomStudent(true);
+                console.log(response)
 
             }catch (e) {
                 console.error(e);
@@ -153,13 +153,13 @@ function StudentPage() {
                 <h2>Opdrachten overzicht:</h2>
                 {/*render hier de verschillende lessen vanuit de database*/}
                 <section className="assignment-table">
-                    <table className="assignments">
+                    <table className="assignments-student">
                         <thead>
                         <tr>
                             <th>Opdracht Titel</th>
                             <th>Deadline</th>
                             <th>Toelichting</th>
-                            <th>Inlever ID</th>
+
                         </tr>
                         </thead>
                         <tbody>
@@ -169,7 +169,7 @@ function StudentPage() {
                                     <td>{assignment.title}</td>
                                     <td>{assignment.deadline}</td>
                                     <td>{assignment.description}</td>
-                                    <td>{assignment.id}</td>
+
 
                                 </tr>
                             )
@@ -211,18 +211,20 @@ function StudentPage() {
                 <table className="submission-table">
                     <thead>
                     <tr>
-                        <th>Opdracht</th>
+                        <th>GitHub Link</th>
                         <th>Opdracht ID</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr key={data.data}>
-                        <td>{data.file}</td>
-                        <td>{data.id}</td>
-                    </tr>
+                            <tr key={data.data}>
+                                <td>{data.file}</td>
+                                <td>{data.id}</td>
+                            </tr>
                     </tbody>
+
                 </table>
                 <p><strong>vul hier uw gebruikers naam in om te bevestigen samen met uw opdracht ID</strong></p>
+
                 <form onSubmit={handleSubmitStudent}>
                 <label htmlFor="username">Gebruikersnaam:</label>
                 <input
@@ -255,7 +257,11 @@ function StudentPage() {
                 <FormButton onClick={fetchRandomSubmission}>Let's GO</FormButton>
             </PopUp>
             <PopUp trigger={PopUpRandomStudent} setTrigger={setPopUpRandomStudent}>
-               <h3> Je bent gekoppeld aan {submissions.username}. Je kunt de PR van jouw buddy hier <a>{submissions.file}</a> vinden.</h3>
+               <h3> Je bent gekoppeld aan een buddy</h3>
+
+                <p>Je kunt de PR van jouw buddy hier <a>{submissions.file}</a> vinden.</p>
+
+
             </PopUp>
             <Footer></Footer>
         </>

@@ -21,3 +21,15 @@
     padding-top: 150px;
 
 }
+.submission-table{
+    text-align: center;
+
+}
+.submission-table td{
+    border: 1px solid black ;
+    border-radius: 4px;
+    padding-left: 6px;
+    padding-right: 6px;
+
+
+}

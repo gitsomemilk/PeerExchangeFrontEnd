@@ -30,7 +30,7 @@ const Nav = () => {
                     onClick={logout}
                     className="nav-button"
                     >
-                        logout
+                        Afmelden
                     </button>
                     :
                     <button

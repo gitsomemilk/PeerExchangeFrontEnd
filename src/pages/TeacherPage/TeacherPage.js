@@ -226,7 +226,7 @@ function TeacherPage() {
                 <br/>
                 {/* render hier de klassen vanuit de database*/}
                 <section className="class-table">
-                    <table className="classes">
+                    <table className="classes-teacher">
                         <thead>
                         <tr>
                             <th>Start datum</th>
@@ -315,7 +315,7 @@ function TeacherPage() {
                 <h2>Opdrachten:</h2>
                 {/* render hier alle opdrachten die al zijn aangemaakt */}
                 <section className="assignment-table">
-                    <table className="assignments">
+                    <table className="assignments-teacher">
                         <thead>
                         <tr>
                             <th>Opdracht Titel</th>

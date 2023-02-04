@@ -15,11 +15,12 @@ nav {
     color: #006FA7;
 }
 
-a{
+.header a{
     text-decoration: none;
 }
-a:hover{
+.header a:hover{
     cursor: pointer;
+    color: #014f79;
 }
 .nav-button{
     margin-top: 15px;

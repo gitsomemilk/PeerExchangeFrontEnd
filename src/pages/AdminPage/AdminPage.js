@@ -87,7 +87,7 @@ function AdminPage() {
     // method to get an overview of all classes
     useEffect(() => {
         async function fetchClass() {
-            toggleDeleteThisClass(false)
+
             try {
                 const responseclass = await axios.get(`http://localhost:8081/class/all`, {
                     headers: {
@@ -95,7 +95,7 @@ function AdminPage() {
                         "Authorization": `Bearer ${token}`,
                     }
                 });
-                console.log(responseclass.data);
+
                 setClasses(responseclass.data);
             } catch (e) {
                 console.error(e)
@@ -126,7 +126,6 @@ function AdminPage() {
                     },
                     signal: controllerClass.signal,
                 });
-                console.log(response);
             } catch (e) {
                 console.error(e)
             }
@@ -141,7 +140,6 @@ function AdminPage() {
     // method to get an overview of all the Assignments
     useEffect(() => {
         async function fetchAssignments() {
-            toggleDeleteThisAssignment(false);
 
             try {
                 const reponseAssignment = await axios.get('http://localhost:8081/assignments/all', {
@@ -150,7 +148,6 @@ function AdminPage() {
                         "Authorization": `Bearer ${token}`,
                     }
                 });
-                console.log(reponseAssignment);
                 setAssignments(reponseAssignment.data);
 
             } catch (e) {
@@ -193,6 +190,51 @@ function AdminPage() {
         }
     }, [deleteThisAssignment]);
 
+    // method to get an overview of all submissions
+    useEffect(() => {
+        async function fetchSubmissions(){
+
+            try{
+                const responseSubmissions = await axios.get(`http://localhost:8081/submission/all`, {
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${token}`,
+                    }
+                });
+                setSubmissions(responseSubmissions.data)
+            }catch (e) {
+                console.error(e)
+            }
+        }
+        void fetchSubmissions();
+    },[]);
+
+    function deleteSubmissionFunction(e, idOfSubmission) {
+        e.preventDefault();
+        setIdOfSubmissionToDelete(idOfSubmission);
+        toggleDeleteThisSubmission(true);
+    }
+    useEffect(() => {
+        const controllerSubmission = new AbortController();
+        async function deleteSubmission(){
+            try{
+                const response = await axios.delete(`http://localhost:8081/submission/${idOfSubmissionToDelete}`,{
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${token}`,
+                    },
+                    signal: controllerSubmission.signal,
+                });
+
+            } catch (e) {
+                console.error(e);
+            }
+        }
+        void deleteSubmission();
+        return function cleanup(){
+            controllerSubmission.abort();
+        }
+    },[deleteThisSubmission]);
 
     {/*----------------///////////////Return\\\\\\\\\\\\\--------------------*/
     }
@@ -202,7 +244,6 @@ function AdminPage() {
         <body className="admin-page">
         <Nav></Nav>
         <section className="admin-page-inner">
-            <h1>Admin pagina</h1>
 
             {/*----------------///////////////Users\\\\\\\\\\\\\--------------------*/}
 
@@ -216,7 +257,6 @@ function AdminPage() {
                         <th>Voornaam</th>
                         <th>Achternaam</th>
                         <th>Verwijder</th>
-
                     </tr>
                     </thead>
                     <tbody>
@@ -227,7 +267,6 @@ function AdminPage() {
                                 <td>{user.email}</td>
                                 <td>{user.firstname}</td>
                                 <td>{user.lastname}</td>
-
                                 <td>
                                     <button
                                         type="button"
@@ -331,10 +370,33 @@ function AdminPage() {
                  <table className="submission">
                      <thead>
                      <tr>
-                         <th></th>
+                         <th>Student</th>
+                         <th>timestamp</th>
+                         <th>ID</th>
+                         <th>Delete</th>
                      </tr>
                      </thead>
+                     <tbody>
+                     {submissions.map((submit) => {
+                         return (
+                             <tr key={submit.id}>
+                                 <td>{submit.student.username}</td>
+                                 <td>{submit.timestamp}</td>
+                                 <td>{submit.id}</td>
+                                 <td>
+                                     <button
+                                         type="button"
+                                         className="button-admin"
+                                         onClick={(e) => deleteSubmissionFunction(e,submit.id)}
+                                     >delete</button>
+                                 </td>
+                             </tr>
+                         )
+                     })}
+                     </tbody>
                  </table>
+                 {deleteThisSubmission && <h4 className="attention">De opdracht is succesvol verwijderd. Refresh deze pagina om het resultaat
+                     te zien in de tabel hierboven.</h4>}
 
              </section>
 

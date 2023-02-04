@@ -90,5 +90,30 @@
     cursor: pointer;
 }
 .assignments td:hover {
-
+    background-color: #19282f;
+}
+.submission{
+    border: 5px solid black;
+    border-radius: 4px;
+    text-align: center;
+    background-color: #1d3036;
+    color: white;
+}
+.submission td{
+    border: 2px solid black;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+.submission button{
+    padding: 20px;
+    background-color: #e7610b;
+    border:  5px #006EA7 solid;
+    border-radius: 10px;
+    color: white;
+}
+.submission button:hover{
+    cursor: pointer;
+}
+.submission td:hover{
+    background-color: #19282f;
 }

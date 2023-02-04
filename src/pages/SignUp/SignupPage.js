@@ -79,7 +79,7 @@ function SignupPage() {
                  />
                  <Input
                      id="firstname"
-                     labelText="voornaam:"
+                     labelText="Voornaam:"
                      type="text"
                      name="firstname"
                      className="input-text"
@@ -96,7 +96,7 @@ function SignupPage() {
                  />
                  <Input
                      id="lastname"
-                     labelText="achternaam:"
+                     labelText="Achternaam:"
                      type="text"
                      name="lastname"
                      className="input-text"
