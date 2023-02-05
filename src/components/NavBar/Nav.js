@@ -1,30 +1,44 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {Link, useNavigate,} from "react-router-dom"
 import "./Nav.css"
-import logo from "../../Assets/nieuwe logo peerexchance - kopie.png"
+import {AuthContext} from "../../Context/AuthContextProvider";
+
 
 const Nav = () => {
     const navigate = useNavigate();
-    const [Auth,setAuthenticated] =useState(false)
+    const {login} = useContext(AuthContext);
+    const {logout} = useContext(AuthContext);
+    const {isAuth} = useContext(AuthContext);
 
 
     function handleSignup() {
         navigate("/signuppage")
 
     }
+    function homePage(){
+        navigate("/")
+    }
 
 
     return (
         <>
             <nav>
-                <img src={logo} alt="logo"/>
-                <h1 className="header">Peer Exchange</h1>
-                <ul className="nav-list">
 
-                    <li><Link to="/">Home</Link></li>
-                    <li><Link to="/login">Login</Link></li>
-                    <button className="register-button" type="button" onClick={handleSignup}>Register</button>
-                </ul>
+                <h1 className="header" onClick={homePage}><a> Peer Exchange</a> </h1>
+                {isAuth ?
+                    <button
+                    onClick={logout}
+                    className="nav-button"
+                    >
+                        Afmelden
+                    </button>
+                    :
+                    <button
+                    onClick={handleSignup}
+                    className="nav-button"
+                    >
+                        Meld je aan!
+                    </button>}
 
             </nav>
         </>

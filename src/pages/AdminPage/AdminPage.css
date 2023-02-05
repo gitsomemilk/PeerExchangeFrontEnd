@@ -1,0 +1,119 @@
+.admin-page-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-image: url("../../Assets/vi.-vector-id165953781.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 100%;
+}
+.outer-container-small-tables {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 40px;
+
+
+}
+.classes {
+    border: 5px solid black;
+    border-radius: 4px;
+    text-align: center;
+    background-color: #1d3036;
+    color: white;
+    margin-bottom: 20px;
+}
+.classes td {
+    border: 2px solid black ;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+.classes td:hover {
+    background-color: #19282f;
+}
+.classes button {
+    padding: 20px;
+    background-color: #e7610b;
+    border:  5px #006EA7 solid;
+    border-radius: 10px;
+    color: white;
+}
+.classes button:hover {
+    cursor: pointer;
+}
+.users {
+    border: 5px solid black;
+    border-radius: 4px;
+    text-align: center;
+    background-color: #1d3036;
+    color: white;
+    margin-bottom: 20px;
+}
+.users td {
+    border: 2px solid black;
+
+}
+.users button {
+    padding: 20px;
+    background-color: #e7610b;
+    border:  5px #006EA7 solid;
+    border-radius: 10px;
+    color: white;
+}
+.users button:hover {
+   cursor: pointer;
+}
+.users td:hover {
+    background-color: #19282f;
+}
+.assignments {
+    border: 5px solid black;
+    border-radius: 4px;
+    text-align: center;
+    background-color: #1d3036;
+    color: white;
+}
+.assignments td {
+    border: 2px solid black;
+    padding-left: 20px;
+    padding-right: 20px;
+
+}
+.assignments button {
+    padding: 20px;
+    background-color: #e7610b;
+    border:  5px #006EA7 solid;
+    border-radius: 10px;
+    color: white;
+}
+.assignments button:hover {
+    cursor: pointer;
+}
+.assignments td:hover {
+    background-color: #19282f;
+}
+.submission{
+    border: 5px solid black;
+    border-radius: 4px;
+    text-align: center;
+    background-color: #1d3036;
+    color: white;
+}
+.submission td{
+    border: 2px solid black;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+.submission button{
+    padding: 20px;
+    background-color: #e7610b;
+    border:  5px #006EA7 solid;
+    border-radius: 10px;
+    color: white;
+}
+.submission button:hover{
+    cursor: pointer;
+}
+.submission td:hover{
+    background-color: #19282f;
+}

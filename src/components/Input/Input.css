@@ -1,0 +1,7 @@
+.input-component {
+    width: 90%;
+    padding-left: 25px;
+    margin: 6px 0;
+    display: flex;
+    flex-direction: column;
+}

@@ -1,0 +1,45 @@
+
+.outer-container{
+    background-image: url("../../Assets/userpage.png") ;
+    height:1200px;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+.buttons-teacher{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    padding-top: 60px;
+    gap: 160px;
+
+}
+.create-assignment label {
+    color: black;
+
+}
+.classes-teacher {
+    border: 5px solid black;
+    border-radius: 4px;
+    text-align: center;
+
+}
+.classes-teacher td{
+    border: 2px solid black ;
+    padding-left: 25px;
+    padding-right: 25px;
+}
+.classes-teacher td:hover{
+    background-color: #a9a8a8;
+}
+.assignments-teacher{
+    border: 5px solid black;
+    border-radius: 4px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+.assignments-teacher td{
+    border: 2px solid black;
+}
+.assignments-teacher td:hover{
+    background-color: #a9a8a8;
+}
