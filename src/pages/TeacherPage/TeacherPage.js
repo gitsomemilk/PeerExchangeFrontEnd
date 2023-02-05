@@ -14,8 +14,8 @@ function TeacherPage() {
 
     const navigate = useNavigate();
     const token = localStorage.getItem('token');
-    const [data,setData] = useState('');
-    const [inputId,setInputID]=useState('');
+    const [data, setData] = useState('');
+    const [inputId, setInputID] = useState('');
     const [inputUsername, setInputUsername] = useState('');
 
 
@@ -29,9 +29,10 @@ function TeacherPage() {
     const [buttonClass, setButtonClass] = useState(false);
     const [buttonAllAssignments, setButtonAllAssignments] = useState(false);
 
-    const [popupNewClass,setPopupNewClass]= useState(false);
-    const [popupNewClassTeacher,setPopupNewClassTeacher] = useState(false);
-    const [popUpMessage, setpopUpMessage] = useState(false)
+    const [popupNewClass, setPopupNewClass] = useState(false);
+    const [popupNewClassTeacher, setPopupNewClassTeacher] = useState(false);
+    const [popUpMessage, setpopUpMessage] = useState(false);
+
 
     const handleChangeUsername = (event) => {
         setInputUsername(event.target.value);
@@ -39,7 +40,6 @@ function TeacherPage() {
     const handleChangeInputId = (event) => {
         setInputID(event.target.value);
     }
-
     useEffect(() => {
         async function fetchClass() {
 
@@ -60,7 +60,6 @@ function TeacherPage() {
 
         void fetchClass();
     }, []);
-
     const handleChangeClass = (event) => {
         setDataClass({...dataClass, [event.target.name]: event.target.value});
     }
@@ -106,10 +105,11 @@ function TeacherPage() {
         setDataAssignment({...dataAssignment, [event.target.name]: event.target.value});
 
     }
-    async function handleSubmitTeacher(e){
+
+    async function handleSubmitTeacher(e) {
         e.preventDefault();
-        try{
-            const response = await axios.post(`http://localhost:8081/class/${inputId}/${inputUsername}`,dataClass,{
+        try {
+            const response = await axios.post(`http://localhost:8081/class/${inputId}/${inputUsername}`, dataClass, {
                 headers: {
                     "Content-Type": "application/json",
                     "Authorization": `Bearer ${token}`,
@@ -118,7 +118,7 @@ function TeacherPage() {
             setPopupNewClassTeacher(false);
             setpopUpMessage(true);
 
-        }catch (e) {
+        } catch (e) {
             console.error(e);
         }
     }
@@ -250,39 +250,39 @@ function TeacherPage() {
                     </table>
                 </section>
                 <br/>
-                <FormButton onClick={()=> setButtonClass(false)+ setPopupNewClass(true)}>Nieuwe Klas </FormButton>
+                <FormButton onClick={() => setButtonClass(false) + setPopupNewClass(true)}>Nieuwe Klas </FormButton>
             </PopUp>
             <PopUp trigger={popupNewClass} setTrigger={setPopupNewClass}>
                 <h2>Klas aanmaken</h2>
                 <h4>Vul hier eerst de start datum in en druk op verder!</h4>
                 <form onSubmit={handleClassSubmit}>
-                <label htmlFor="">Startdatum:</label>
-                <input
-                    type="text"
-                    name="name"
-                    id="name"
-                    onChange={handleChangeClass}
-                    placeholder="bijv. 2023/08"
-                />
-                <br/>
-                <FormButton>verder</FormButton>
+                    <label htmlFor="">Startdatum:</label>
+                    <input
+                        type="text"
+                        name="name"
+                        id="name"
+                        onChange={handleChangeClass}
+                        placeholder="bijv. 2023/08"
+                    />
+                    <br/>
+                    <FormButton>verder</FormButton>
                 </form>
             </PopUp>
             <PopUp trigger={popupNewClassTeacher} setTrigger={setPopupNewClassTeacher}>
                 <h2>Leraar toevoegen:</h2>
                 <h3>Aangemaakte klas</h3>
-                <table className="classes">
-                <thead>
-                <tr>
-                    <th>Start datum</th>
-                    <th>Klas id</th>
-                </tr>
-                </thead>
-                <tbody>
-                        <tr key={data.id}>
-                            <td>{data.name}</td>
-                            <td>{data.id}</td>
-                        </tr>
+                <table className="classes-teacher">
+                    <thead>
+                    <tr>
+                        <th>Start datum</th>
+                        <th>Klas id</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr key={data.id}>
+                        <td>{data.name}</td>
+                        <td>{data.id}</td>
+                    </tr>
                     </tbody>
                 </table>
                 <p><strong>vul hier je gebruikersnaam in om te bevestigen samen met het Klas ID</strong></p>
@@ -309,8 +309,6 @@ function TeacherPage() {
             <PopUp trigger={popUpMessage} setTrigger={setpopUpMessage}>
                 <h2>Nieuwe klas aangemaakt</h2>
             </PopUp>
-
-
             <PopUp trigger={buttonAllAssignments} setTrigger={setButtonAllAssignments} className="allAssignments-popup">
                 <h2>Opdrachten:</h2>
                 {/* render hier alle opdrachten die al zijn aangemaakt */}

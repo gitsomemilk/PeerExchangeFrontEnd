@@ -17,20 +17,20 @@ function StudentPage() {
     const [buttonAssignment, setButtonAssignment] = useState(false);
     const [buttonHomeworkInput, setButtonHomeworkInput] = useState(false);
 
-    const [popUpHomework,setPopUpHomework] = useState(false)
-    const [popUpHomeworkMessage, setPopUpHomeworkMessage ] = useState(false);
-    const [PopUpRandomStudent,setPopUpRandomStudent] =useState(false);
+    const [popUpHomework, setPopUpHomework] = useState(false)
+    const [popUpHomeworkMessage, setPopUpHomeworkMessage] = useState(false);
+    const [PopUpRandomStudent, setPopUpRandomStudent] = useState(false);
 
     const [dataSubmission, setDataSubmission] = useState({});
 
-    const [inputId,setInputid] = useState('');
+    const [inputId, setInputid] = useState('');
     const [inputUsername, setInputUsername] = useState("");
 
-    const[data,setData] = useState([]);
+    const [data, setData] = useState([]);
 
 
     const handleChangeSubmission = (event) => {
-        setDataSubmission({...dataSubmission, [event.target.name] : event.target.value});
+        setDataSubmission({...dataSubmission, [event.target.name]: event.target.value});
     }
     const handleIdSubmission = (event) => {
         setInputid(event.target.value);
@@ -45,7 +45,7 @@ function StudentPage() {
     useEffect(() => {
         async function fetchAssignments() {
 
-            try{
+            try {
                 const reponseAssignment = await axios.get('http://localhost:8081/assignments/all', {
                     headers: {
                         "Content-Type": "application/json",
@@ -53,71 +53,74 @@ function StudentPage() {
                     },
 
                 });
-                console.log("dit zijn de opdrachten die gerenderd worden :",reponseAssignment.data);
+                console.log("dit zijn de opdrachten die gerenderd worden :", reponseAssignment.data);
                 setAssignments(reponseAssignment.data);
 
-            }catch (e) {
+            } catch (e) {
                 console.error(e)
             }
         }
-        void fetchAssignments();
-    },[]);
 
-    async function handleSubmitSubmission(e){
+        void fetchAssignments();
+    }, []);
+
+    async function handleSubmitSubmission(e) {
         e.preventDefault()
-        try{
-            const response = await axios.post(`http://localhost:8081/submission`,dataSubmission,{
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": `Bearer ${token}`,
-            }
-        });
+        try {
+            const response = await axios.post(`http://localhost:8081/submission`, dataSubmission, {
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`,
+                }
+            });
             setButtonHomeworkInput(false);
             setPopUpHomework(true)
             setData(response.data)
             setDataSubmission('')
 
-        }catch (e) {
+        } catch (e) {
             console.error(e)
         }
 
     }
-    async function handleSubmitStudent(e){
+
+    async function handleSubmitStudent(e) {
         e.preventDefault();
         try {
-            const response = await axios.post(`http://localhost:8081/submission/${inputId}/${inputUsername}`,dataSubmission,{
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": `Bearer ${token}`,
-            }
-        });
+            const response = await axios.post(`http://localhost:8081/submission/${inputId}/${inputUsername}`, dataSubmission, {
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`,
+                }
+            });
 
             setPopUpHomework(false);
             setPopUpHomeworkMessage(true);
 
-        }catch (e) {
+        } catch (e) {
             console.error(e)
 
         }
     }
-        async function fetchRandomSubmission(e){
-            e.preventDefault();
-            try {
-                const response = await axios.get(`http://localhost:8081/submission/random`,{
-                    headers: {
-                        "Content-Type": "application/json",
-                        "Authorization": `Bearer ${token}`,
-                    }
-                });
-                setSubmissions(response.data);
-                setPopUpHomeworkMessage(false);
-                setPopUpRandomStudent(true);
-                console.log(response)
 
-            }catch (e) {
-                console.error(e);
-            }
+    async function fetchRandomSubmission(e) {
+        e.preventDefault();
+        try {
+            const response = await axios.get(`http://localhost:8081/submission/random`, {
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`,
+                }
+            });
+            setSubmissions(response.data);
+            setPopUpHomeworkMessage(false);
+            setPopUpRandomStudent(true);
+            console.log(response)
+
+        } catch (e) {
+            console.error(e);
         }
+    }
 
 
     return (
@@ -134,8 +137,6 @@ function StudentPage() {
                     </Button>
 
 
-
-
                     <Button
                         type="button"
                         className="student-button"
@@ -149,11 +150,11 @@ function StudentPage() {
             </div>
 
             {/*Popup blok*/}
-            <PopUp trigger ={buttonAssignment} setTrigger ={setButtonAssignment}>
+            <PopUp trigger={buttonAssignment} setTrigger={setButtonAssignment}>
                 <h2>Opdrachten overzicht:</h2>
                 {/*render hier de verschillende lessen vanuit de database*/}
                 <section className="assignment-table">
-                    <table className="assignments-student">
+                    <table className="assignments-teacher">
                         <thead>
                         <tr>
                             <th>Opdracht Titel</th>
@@ -180,28 +181,28 @@ function StudentPage() {
             </PopUp>
 
 
-            <PopUp trigger ={buttonHomeworkInput} setTrigger ={setButtonHomeworkInput}>
+            <PopUp trigger={buttonHomeworkInput} setTrigger={setButtonHomeworkInput}>
                 <h2>Huiswerk inleveren</h2>
                 <form onSubmit={handleSubmitSubmission}>
-                <label htmlFor="file">Github link:</label>
-                <input
-                    type="url"
-                    name="file"
-                    id="file"
-                    placeholder="plak hier je github link"
-                    onChange={handleChangeSubmission}
+                    <label htmlFor="file">Github link:</label>
+                    <input
+                        type="url"
+                        name="file"
+                        id="file"
+                        placeholder="plak hier je github link"
+                        onChange={handleChangeSubmission}
 
 
-                />
-                <br/>
-                <label htmlFor="timestamp">Inlever moment:</label>
-                <input
-                    type="datetime-local"
-                    name="timestamp"
-                    id="timestamp"
-                    onChange={handleChangeSubmission}
-                />
-                <br/>
+                    />
+                    <br/>
+                    <label htmlFor="timestamp">Inlever moment:</label>
+                    <input
+                        type="datetime-local"
+                        name="timestamp"
+                        id="timestamp"
+                        onChange={handleChangeSubmission}
+                    />
+                    <br/>
 
                     <FormButton>Inleveren</FormButton>
                 </form>
@@ -216,37 +217,37 @@ function StudentPage() {
                     </tr>
                     </thead>
                     <tbody>
-                            <tr key={data.data}>
-                                <td>{data.file}</td>
-                                <td>{data.id}</td>
-                            </tr>
+                    <tr key={data.data}>
+                        <td>{data.file}</td>
+                        <td>{data.id}</td>
+                    </tr>
                     </tbody>
 
                 </table>
                 <p><strong>vul hier uw gebruikers naam in om te bevestigen samen met uw opdracht ID</strong></p>
 
                 <form onSubmit={handleSubmitStudent}>
-                <label htmlFor="username">Gebruikersnaam:</label>
-                <input
-                    type="text"
-                    name="username"
-                    id="username"
-                    value={inputUsername}
-                    onChange={handleUsernameSubmission}
+                    <label htmlFor="username">Gebruikersnaam:</label>
+                    <input
+                        type="text"
+                        name="username"
+                        id="username"
+                        value={inputUsername}
+                        onChange={handleUsernameSubmission}
 
-                />
-                <br/>
-                <label htmlFor="id-input">Opdracht ID:</label>
-                <input
-                    type="text"
-                    name="id-input"
-                    id="id-input"
-                    value={inputId}
-                    onChange={handleIdSubmission}
+                    />
+                    <br/>
+                    <label htmlFor="id-input">Opdracht ID:</label>
+                    <input
+                        type="text"
+                        name="id-input"
+                        id="id-input"
+                        value={inputId}
+                        onChange={handleIdSubmission}
 
-                />
-                <br/>
-                <FormButton>Bevestig</FormButton>
+                    />
+                    <br/>
+                    <FormButton>Bevestig</FormButton>
                 </form>
             </PopUp>
             <PopUp trigger={popUpHomeworkMessage} setTrigger={setPopUpHomeworkMessage}>
@@ -257,7 +258,7 @@ function StudentPage() {
                 <FormButton onClick={fetchRandomSubmission}>Let's GO</FormButton>
             </PopUp>
             <PopUp trigger={PopUpRandomStudent} setTrigger={setPopUpRandomStudent}>
-               <h3> Je bent gekoppeld aan een buddy</h3>
+                <h3> Je bent gekoppeld aan een buddy</h3>
 
                 <p>Je kunt de PR van jouw buddy hier <a>{submissions.file}</a> vinden.</p>
 

@@ -22,8 +22,9 @@ const HomePage = () => {
                 <Button className="homepage-button" onClick={buttonnav}>Login</Button>
             </section>
 
+            <br/>
+            <br/>
 
-            <h2>hier moet een filmpje komen </h2>
             <Footer></Footer>
         </div>
     );
